@@ -11,7 +11,7 @@ return [
     // --- Application ---
     'APP_NAME' => 'PackNGo',
     'APP_ENV' => 'production',          // development | production
-    'APP_URL' => 'https://yourdomain.com', // Change to your actual domain with https
+    'APP_URL' => 'https://packngo-production.up.railway.app', // Change to your actual domain with https
     'APP_DEBUG' => 'false',               // Set to false in production to hide error details
     'APP_TIMEZONE' => 'Asia/Karachi',
     'APP_SECRET_KEY' => 'CHANGE_THIS_TO_A_RANDOM_64_CHARACTER_STRING', // Generate a random key
