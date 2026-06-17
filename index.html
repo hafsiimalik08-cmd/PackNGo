@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PackNGo | Luxury Travel Redefined</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231F3D36'/%3E%3Cg transform='translate(8,12) scale(0.75)'%3E%3Cpath fill='%23D4AF37' d='M59.257 21.915c1.597-1.598 2.473-3.722 2.473-5.984 0-4.667-3.789-8.456-8.456-8.456-2.263 0-4.387.876-5.984 2.473L36 21.238 9.515 13.481 4 19l19.373 12.056L14 41H7l-3 5 9 2 2 9 5-3v-7l9.944-9.373L42 57l5.5-5.515-7.757-26.485z'/%3E%3C/g%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Times New Roman', serif; background-color: #F5EFE6; color: #1F3D36; scroll-behavior: smooth; }
+        section[id], .anchor-point { scroll-margin-top: 80px; }
+        .container { width: 85%; max-width: 1200px; margin: auto; padding: 40px 0; }
+        header { background: #1F3D36; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 0; }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1400px; margin: auto; height: 70px; }
+        .brand-container { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-shrink: 0; }
+        #plane-icon { color: #D4AF37; font-size: 18px; }
+        #logo { color: #D4AF37; font-size: 24px; letter-spacing: 2px; text-transform: none; margin: 0; white-space: nowrap; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 1100; }
+        .hamburger span { display: block; width: 26px; height: 2px; background: #D4AF37; border-radius: 2px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        nav ul { list-style: none; display: flex; align-items: center; gap: 22px; flex-wrap: nowrap; }
+        nav ul li a { color: #F5EFE6; text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
+        nav ul li a:hover { color: #D4AF37; }
+        .nav-btn { background: #D4AF37; color: #1F3D36 !important; padding: 8px 18px; border-radius: 2px; font-weight: bold; white-space: nowrap; }
+        .scroll-btn { position: fixed; right: 22px; width: 44px; height: 44px; border-radius: 50%; background: #D4AF37; color: #1F3D36; border: none; font-size: 16px; cursor: pointer; z-index: 999; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 12px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.3s, background 0.3s; }
+        .scroll-btn:hover { background: #1F3D36; color: #D4AF37; }
+        .scroll-top { bottom: 80px; }
+        .scroll-bottom { bottom: 26px; }
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; overflow: hidden; }
+        .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        #bg-video { width: 100%; height: 100%; object-fit: cover; }
+        .hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(31, 61, 54, 0.4); }
+        .hero-content { position: relative; z-index: 1; padding: 0 20px; }
+        .main-title { font-size: 4rem; }
+        .sub-text { font-size: 1.1rem; }
+        .divider { width: 100px; height: 2px; background: #D4AF37; margin: 15px auto; }
+        .gold-btn { background: #D4AF37; color: #1F3D36; padding: 15px 40px; border: none; font-weight: bold; cursor: pointer; transition: 0.4s; font-family: inherit; font-size: 1rem; text-decoration: none; display: inline-block; }
+        .gold-btn:hover { background: #b8962e; }
+        .search-section { padding-top: 20px; }
+        .search-categories { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 28px; }
+        .cat-btn { background: #fff; border: 1px solid #D4AF37; color: #1F3D36; padding: 10px 20px; border-radius: 30px; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', serif; display: flex; align-items: center; gap: 7px; transition: all 0.3s; letter-spacing: 0.5px; }
+        .cat-btn:hover, .cat-btn.active { background: #D4AF37; color: #1F3D36; font-weight: bold; box-shadow: 0 3px 10px rgba(212,175,55,0.3); }
+        .search-bar-wrap { display: flex; justify-content: center; margin-bottom: 30px; }
+        .search-input-group { position: relative; width: 100%; max-width: 580px; }
+        .search-input-group input { width: 100%; padding: 14px 48px 14px 48px; border: 1.5px solid #1F3D36; background: #fff; font-family: 'Times New Roman', serif; font-size: 15px; color: #1F3D36; border-radius: 3px; outline: none; transition: border-color 0.3s; }
+        .search-input-group input:focus { border-color: #D4AF37; }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #D4AF37; font-size: 16px; pointer-events: none; }
+        .search-clear-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #888; font-size: 15px; cursor: pointer; display: none; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; transition: color 0.2s; }
+        .search-clear-btn:hover { color: #1F3D36; }
+        .search-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; min-height: 0; }
+        .search-result-card { background: #fff; border: 1px solid #D4AF37; border-radius: 4px; padding: 20px; transition: box-shadow 0.3s; }
+        .search-result-card:hover { box-shadow: 0 4px 18px rgba(212,175,55,0.25); }
+        .search-result-card h4 { color: #1F3D36; margin-bottom: 6px; font-size: 1.1rem; }
+        .search-result-card p { font-size: 0.9rem; color: #555; }
+        .result-cat { display: inline-block; background: #D4AF37; color: #1F3D36; font-size: 11px; padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: bold; }
+        .no-results { grid-column: 1/-1; text-align: center; color: #888; font-style: italic; padding: 20px 0; }
+        .dest-click-hint { display: block; margin-top: 8px; font-size: 11px; color: #1F3D36; opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; }
+        .adventure-card { cursor: pointer; }
+        .adventure-card:hover .dest-click-hint { opacity: 1; }
+        .dest-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(31,61,54,0.75); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .dest-modal-overlay.active { display: flex; }
+        .dest-modal-box { background: #F5EFE6; max-width: 780px; width: 100%; max-height: 88vh; overflow-y: auto; border-radius: 6px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+        .dest-modal-close { position: sticky; top: 14px; float: right; margin: 14px 14px 0 0; background: #1F3D36; color: #D4AF37; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .dest-modal-close:hover { background: #D4AF37; color: #1F3D36; }
+        .dest-modal-img { width: 100%; height: 260px; object-fit: cover; border-radius: 6px 6px 0 0; display: block; }
+        .dest-modal-body { padding: 28px 32px 32px; }
+        .dest-modal-body h2 { font-size: 2rem; color: #1F3D36; margin-bottom: 6px; }
+        .dest-modal-body .dest-tagline { font-style: italic; color: #888; margin-bottom: 20px; font-size: 1rem; }
+        .dest-modal-divider { width: 60px; height: 2px; background: #D4AF37; margin-bottom: 24px; }
+        .dest-modal-section { margin-bottom: 24px; }
+        .dest-modal-section h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.8px; color: #1F3D36; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .dest-modal-section h3 i { color: #D4AF37; }
+        .dest-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .dest-info-item { background: #fff; border: 1px solid #e8dfc8; border-radius: 4px; padding: 12px 14px; }
+        .dest-info-item strong { display: block; font-size: 0.88rem; color: #1F3D36; margin-bottom: 3px; }
+        .dest-info-item span { font-size: 0.85rem; color: #666; }
+        .dest-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .dest-list li { background: #fff; border-left: 3px solid #D4AF37; padding: 8px 12px; font-size: 0.88rem; color: #444; border-radius: 0 4px 4px 0; }
+        .dest-list li strong { display: block; color: #1F3D36; font-size: 0.85rem; }
+        .experience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .adventure-card { background: #D4AF37; padding-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+        .img-wrapper { overflow: hidden; height: 280px; }
+        .adventure-card img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+        .adventure-card:hover img { transform: scale(1.06); }
+        .card-info { padding: 20px; text-align: center; color: #1F3D36; }
+        .card-info h3 { margin-bottom: 10px; font-size: 1.5rem; text-transform: uppercase; }
+        .review-box { text-align: center; font-style: italic; font-size: 1.5rem; color: #1F3D36; padding: 40px; background: #fff; border: 1px solid #D4AF37; }
+        .map-section { padding-top: 20px; }
+        .map-subtitle { text-align: center; color: #555; font-style: italic; margin-top: -30px; margin-bottom: 30px; font-size: 0.95rem; }
+        .map-wrapper { border: 2px solid #D4AF37; border-radius: 4px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .info-row-bg { background-color: #fff; padding: 70px 0; border-top: 1px solid #D4AF37; border-bottom: 1px solid #D4AF37; position: relative; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .column-heading { font-size: 1.6rem; margin-bottom: 15px; color: #1F3D36; text-transform: uppercase; }
+        .center-text { text-align: center; }
+        .anchor-point { position: absolute; top: 0; }
+        .package-card { background: #fff; padding: 40px; text-align: center; border: 1px solid #D4AF37; }
+        .package-card.active { background: #1F3D36; color: #F5EFE6; }
+        .price { display: block; font-size: 24px; color: #D4AF37; margin-top: 10px; }
+        .section-heading { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
+        footer { background: #1F3D36; color: #F5EFE6; text-align: center; padding: 40px 0; }
+        footer a { color: #D4AF37; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        .footer-links { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 20px; }
+        .footer-social { display: flex; justify-content: center; gap: 18px; margin-bottom: 22px; }
+        .footer-social a { color: #F5EFE6; font-size: 20px; transition: color 0.3s, transform 0.3s; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(212,175,55,0.4); border-radius: 50%; }
+        .footer-social a:hover { color: #D4AF37; border-color: #D4AF37; transform: translateY(-3px); text-decoration: none; }
+        .footer-social a.wa-footer-icon:hover { color: #25D366; border-color: #25D366; }
+        .faq-item { margin-bottom: 18px; border-bottom: 1px solid #e8dfc8; padding-bottom: 16px; }
+        .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .faq-item h4 { font-size: 0.95rem; color: #1F3D36; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+        .faq-item p { font-size: 0.9rem; color: #555; line-height: 1.6; }
+        .cf-heading { margin-top: 30px; margin-bottom: 16px; font-size: 1rem; color: #1F3D36; text-transform: uppercase; letter-spacing: 0.5px; border-top: 1px solid #e8dfc8; padding-top: 26px; }
+        .cf-field { margin-bottom: 16px; display: flex; flex-direction: column; }
+        .cf-field label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: #1F3D36; margin-bottom: 6px; font-weight: bold; }
+        .cf-field input, .cf-field select, .cf-field textarea { padding: 11px 13px; border: 1px solid #ccc; background: #fff; font-family: 'Times New Roman', serif; font-size: 14px; color: #1F3D36; outline: none; border-radius: 2px; transition: border-color 0.3s; }
+        .cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { border-color: #D4AF37; }
+        .cf-field textarea { resize: vertical; }
+        .cf-error { font-size: 11px; color: #c0392b; margin-top: 4px; display: none; font-style: italic; }
+        .cf-error.visible { display: block; }
+        .cf-char-count { font-size: 11px; color: #999; text-align: right; margin-top: 3px; }
+        .cf-honeypot { position: absolute; left: -9999px; top: -9999px; }
+        .cf-captcha-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .cf-captcha-row input { width: 90px; flex: none; }
+        .cf-success { display: none; margin-top: 16px; padding: 14px 16px; background: #eef7ee; border: 1px solid #b6dba0; color: #1F3D36; font-size: 0.9rem; }
+        .cf-success.visible { display: block; }
+        @media (max-width: 1024px) { .info-grid { grid-template-columns: 1fr 1fr; } nav ul { gap: 14px; } nav ul li a { font-size: 11px; } .header-flex { width: 95%; } }
+        @media (max-width: 768px) {
+            .header-flex { height: 60px; width: 92%; }
+            .hamburger { display: flex; }
+            nav#mainNav { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #1F3D36; z-index: 1050; flex-direction: column; align-items: center; justify-content: center; }
+            nav#mainNav.open { display: flex; }
+            nav ul { flex-direction: column; align-items: center; gap: 22px; }
+            nav ul li a { font-size: 18px; }
+            .main-title { font-size: 2.4rem; }
+            .sub-text { font-size: 1rem; }
+            .section-heading { font-size: 1.8rem; }
+            .cat-btn { padding: 8px 14px; font-size: 12px; }
+            .info-grid { grid-template-columns: 1fr; gap: 30px; }
+            .center-text { text-align: left; }
+            .scroll-top { bottom: 74px; right: 14px; }
+            .scroll-bottom { bottom: 22px; right: 14px; }
+            .review-box { font-size: 1.1rem; padding: 24px; }
+            .map-wrapper iframe { height: 280px; }
+        }
+        @media (max-width: 480px) { .container { width: 92%; } .main-title { font-size: 1.9rem; } .experience-grid { grid-template-columns: 1fr; } .gold-btn { padding: 12px 28px; font-size: 0.95rem; } .column-heading { font-size: 1.3rem; } .section-heading { font-size: 1.5rem; margin-bottom: 26px; } .package-card { padding: 28px 18px; } .img-wrapper { height: 200px; } .search-input-group input { font-size: 14px; } }
+
+        /* =====================================================
+           WHATSAPP FLOATING CHATBOT WIDGET
+           ===================================================== */
+        .wa-fab { position: fixed; bottom: 28px; left: 28px; width: 56px; height: 56px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 18px rgba(37,211,102,0.45); border: none; z-index: 1200; transition: transform 0.25s, box-shadow 0.25s; }
+        .wa-fab:hover { transform: scale(1.1); box-shadow: 0 6px 26px rgba(37,211,102,0.6); }
+        .wa-fab i { color: #fff; font-size: 26px; }
+        .wa-fab .wa-pulse { position: absolute; top: -3px; right: -3px; width: 14px; height: 14px; background: #D4AF37; border-radius: 50%; border: 2px solid #fff; animation: waPulse 2s infinite; }
+        @keyframes waPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:0.7} }
+        .wa-chat-panel { position: fixed; bottom: 96px; left: 28px; width: 320px; background: #fff; border-radius: 14px; box-shadow: 0 12px 48px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08); z-index: 1199; display: flex; flex-direction: column; overflow: hidden; font-family: 'Times New Roman', serif; transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none; transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease; }
+        .wa-chat-panel.wa-open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+        .wa-chat-header { background: #1F3D36; padding: 14px 16px; display: flex; align-items: center; gap: 11px; }
+        .wa-chat-avatar { width: 40px; height: 40px; background: #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .wa-chat-avatar i { color: #1F3D36; font-size: 18px; }
+        .wa-chat-header-text { flex: 1; }
+        .wa-chat-header-text h4 { color: #D4AF37; font-size: 15px; margin: 0 0 2px; letter-spacing: 0.4px; }
+        .wa-chat-header-text p { color: rgba(245,239,230,0.65); font-size: 11px; margin: 0; }
+        .wa-chat-close { background: none; border: none; color: rgba(245,239,230,0.5); font-size: 18px; cursor: pointer; padding: 0; line-height: 1; transition: color 0.2s; }
+        .wa-chat-close:hover { color: #D4AF37; }
+        .wa-chat-messages { padding: 14px; background: #F5EFE6; flex: 1; min-height: 200px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+        .wa-msg-bot { background: #fff; border: 1px solid rgba(212,175,55,0.25); border-radius: 0 10px 10px 10px; padding: 9px 13px; font-size: 13px; color: #1F3D36; line-height: 1.55; max-width: 87%; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .wa-msg-bot small { display: block; color: #aaa; font-size: 10px; margin-top: 5px; }
+        .wa-msg-user { background: #1F3D36; color: #F5EFE6; border-radius: 10px 0 10px 10px; padding: 9px 13px; font-size: 13px; line-height: 1.55; max-width: 87%; align-self: flex-end; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .wa-msg-user small { display: block; color: rgba(245,239,230,0.5); font-size: 10px; margin-top: 5px; text-align: right; }
+        .wa-typing { display: none; align-items: center; gap: 4px; padding: 9px 13px; background: #fff; border-radius: 0 10px 10px 10px; width: fit-content; border: 1px solid rgba(212,175,55,0.2); margin: 0 14px 10px; }
+        .wa-typing span { width: 7px; height: 7px; background: #D4AF37; border-radius: 50%; animation: waTyping 1.2s infinite; }
+        .wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes waTyping { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+        .wa-chat-input-row { display: flex; padding: 10px 12px; background: #fff; gap: 8px; border-top: 1px solid rgba(212,175,55,0.2); }
+        .wa-chat-input-row input { flex: 1; border: 1px solid rgba(31,61,54,0.2); border-radius: 22px; padding: 9px 16px; font-family: 'Times New Roman', serif; font-size: 13px; color: #1F3D36; background: #F5EFE6; outline: none; transition: border-color 0.25s; }
+        .wa-chat-input-row input:focus { border-color: #D4AF37; }
+        .wa-chat-send { width: 36px; height: 36px; border-radius: 50%; background: #25D366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s, transform 0.15s; }
+        .wa-chat-send:hover { background: #1ebe5d; transform: scale(1.08); }
+        .wa-chat-send i { color: #fff; font-size: 14px; }
+        @media (max-width: 480px) { .wa-chat-panel { left: 10px; right: 10px; width: auto; bottom: 88px; } .wa-fab { left: 16px; bottom: 20px; } }
+    </style>
+</head>
+<body>
+
+    <button class="scroll-btn scroll-top" id="scrollTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-chevron-up"></i></button>
+    <button class="scroll-btn scroll-bottom" id="scrollBottomBtn" aria-label="Scroll to bottom"><i class="fa-solid fa-chevron-down"></i></button>
+
+    <header>
+        <div class="container header-flex">
+            <div class="brand-container">
+                <i class="fa-solid fa-plane" id="plane-icon"></i>
+                <h1 id="logo">PackNGo</h1>
+            </div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html" onclick="closeNav()">Home</a></li>
+                    <li><a href="index.html#destinations" onclick="closeNav()">Destinations</a></li>
+                    <li><a href="index.html#packages" onclick="closeNav()">Tour Packages</a></li>
+                    <li><a href="gallery.html" onclick="closeNav()">Gallery</a></li>
+                    <li><a href="index.html#accessibility" onclick="closeNav()">Accessibility</a></li>
+                    <li><a href="about.html" onclick="closeNav()">About Us</a></li>
+                    <li><a href="index.html#contact" onclick="closeNav()">Contact</a></li>
+                    <li><a href="blogs.html" onclick="closeNav()">Blogs</a></li>
+                    <li><a href="reservation.html" class="nav-btn" onclick="closeNav()">Book Now</a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section id="home" class="hero">
+            <div class="video-background">
+                <video autoplay muted loop playsinline id="bg-video">
+                    <source src="Travel.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="hero-content">
+                <h2 class="main-title">Wanderlust Redefined</h2>
+                <p class="sub-text">Handmade travel experiences for the discerning soul.</p>
+                <div class="divider"></div>
+                <a href="reservation.html" class="gold-btn">Begin Your Story</a>
+            </div>
+        </section>
+
+        <!-- SEARCH WITH CATEGORIES -->
+        <section id="search-section" class="container search-section">
+            <h2 class="section-heading">Find Your Dream Destination</h2>
+            <div class="search-categories">
+                <button class="cat-btn active" data-cat="all"><i class="fa-solid fa-globe"></i> All</button>
+                <button class="cat-btn" data-cat="beach"><i class="fa-solid fa-umbrella-beach"></i> Beach</button>
+                <button class="cat-btn" data-cat="adventure"><i class="fa-solid fa-mountain"></i> Adventure</button>
+                <button class="cat-btn" data-cat="culture"><i class="fa-solid fa-landmark"></i> Culture</button>
+                <button class="cat-btn" data-cat="romance"><i class="fa-solid fa-heart"></i> Romance</button>
+                <button class="cat-btn" data-cat="nature"><i class="fa-solid fa-leaf"></i> Nature</button>
+            </div>
+            <div class="search-bar-wrap">
+                <div class="search-input-group">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search destinations, packages…" oninput="filterResults()" />
+                    <button class="search-clear-btn" onclick="clearSearch()" id="clearBtn" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div id="searchResults" class="search-results-grid"></div>
+        </section>
+
+        <!-- DESTINATIONS -->
+        <section id="destinations" class="container">
+            <h2 class="section-heading">Our Destinations</h2>
+            <div class="experience-grid">
+                <article class="adventure-card" onclick="openDestModal('ireland')">
+                    <div class="img-wrapper"><img src="images/Ireland.jpg" alt="Ireland" loading="lazy"></div>
+                    <div class="card-info"><h3>Emerald Ireland</h3><p>Discover the beauty of the cliffs.</p><span class="dest-click-hint"><i class="fa-solid fa-circle-info"></i> Click to explore</span></div>
+                </article>
+                <article class="adventure-card" onclick="openDestModal('paris')">
+                    <div class="img-wrapper"><img src="images/Paris.jpg" alt="Paris" loading="lazy"></div>
+                    <div class="card-info"><h3>Parisian Lights</h3><p>Experience the romance of France.</p><span class="dest-click-hint"><i class="fa-solid fa-circle-info"></i> Click to explore</span></div>
+                </article>
+                <article class="adventure-card" onclick="openDestModal('italy')">
+                    <div class="img-wrapper"><img src="images/Italy.jpg" alt="Italy" loading="lazy"></div>
+                    <div class="card-info"><h3>Classic Italy</h3><p>Journey through timeless elegance.</p><span class="dest-click-hint"><i class="fa-solid fa-circle-info"></i> Click to explore</span></div>
+                </article>
+            </div>
+        </section>
+
+        <!-- DESTINATION MODAL -->
+        <div id="destModal" class="dest-modal-overlay" onclick="closeDestModal(event)">
+            <div class="dest-modal-box">
+                <button class="dest-modal-close" onclick="closeDestModal(null)"><i class="fa-solid fa-xmark"></i></button>
+                <div id="destModalContent"></div>
+            </div>
+        </div>
+
+        <!-- PACKAGES -->
+        <section id="packages" class="container">
+            <h2 class="section-heading">Tour Packages</h2>
+            <div class="experience-grid">
+                <div class="package-card"><h3>Luxury Escape</h3><p>7 Days of Pure Bliss</p><span class="price">$2,500</span></div>
+                <div class="package-card active"><h3>Honeymoon Special</h3><p>10 Days in Paradise</p><span class="price">$4,000</span></div>
+                <div class="package-card"><h3>Adventure Trek</h3><p>5 Days of Exploration</p><span class="price">$1,800</span></div>
+            </div>
+        </section>
+
+        <!-- REVIEWS -->
+        <section id="reviews" class="container">
+            <h2 class="section-heading">Guest Reviews</h2>
+            <div class="review-box">
+                <p>"An unforgettable experience. PackNGo really knows luxury!"</p>
+                <small>- Sophia Loren</small>
+            </div>
+        </section>
+
+        <!-- ACCESSIBILITY -->
+        <section id="accessibility" class="container" style="padding-top:20px;">
+            <h2 class="section-heading">Accessibility</h2>
+            <p style="text-align:center;color:#888;font-size:0.9rem;font-style:italic;margin-top:-28px;margin-bottom:30px;"><i class="fa-solid fa-hand-pointer" style="color:#D4AF37;margin-right:5px;"></i> Click "Learn More" on any card to expand</p>
+            <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;">
+                <div class="access-card">
+                    <i class="fa-solid fa-wheelchair" style="font-size:2rem;color:#D4AF37;margin-bottom:14px;display:block;"></i>
+                    <h3 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;color:#1F3D36;">Wheelchair Friendly</h3>
+                    <p style="font-size:0.92rem;color:#555;line-height:1.6;">All our tour packages include wheelchair-accessible accommodations, transport, and routes.</p>
+                    <button class="access-toggle-label" onclick="toggleAccess(this)">Learn More <i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="access-detail"><div class="access-detail-inner">
+                        <h4><i class="fa-solid fa-circle-check"></i> What We Provide</h4>
+                        <ul><li>Wheelchair-accessible hotels &amp; resorts on all packages</li><li>Adapted transport vehicles with ramps and secure seating</li><li>Pre-screened routes free from major accessibility barriers</li><li>Dedicated mobility assistant available upon request</li><li>Priority boarding on all flights and excursions</li></ul>
+                        <h4><i class="fa-solid fa-phone"></i> How to Request</h4>
+                        <p>Mention your mobility requirements in the booking form or call our concierge at <strong>+92 300 1234567</strong> at least 48 hours before departure.</p>
+                    </div></div>
+                </div>
+                <div class="access-card">
+                    <i class="fa-solid fa-eye-slash" style="font-size:2rem;color:#D4AF37;margin-bottom:14px;display:block;"></i>
+                    <h3 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;color:#1F3D36;">Visual Assistance</h3>
+                    <p style="font-size:0.92rem;color:#555;line-height:1.6;">Audio guides and braille materials available upon request for visually impaired travelers.</p>
+                    <button class="access-toggle-label" onclick="toggleAccess(this)">Learn More <i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="access-detail"><div class="access-detail-inner">
+                        <h4><i class="fa-solid fa-circle-check"></i> What We Provide</h4>
+                        <ul><li>Professional audio guide devices in 10+ languages</li><li>Braille itineraries, menus, and destination booklets</li><li>Sighted guide assistance at major attractions</li><li>Large-print documents and high-contrast materials</li><li>Screen-reader compatible digital travel documents</li></ul>
+                        <h4><i class="fa-solid fa-phone"></i> How to Request</h4>
+                        <p>Contact our concierge at <strong>concierge@packngo.store</strong> with your specific requirements at least 72 hours before your tour.</p>
+                    </div></div>
+                </div>
+                <div class="access-card">
+                    <i class="fa-solid fa-ear-deaf" style="font-size:2rem;color:#D4AF37;margin-bottom:14px;display:block;"></i>
+                    <h3 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;color:#1F3D36;">Hearing Support</h3>
+                    <p style="font-size:0.92rem;color:#555;line-height:1.6;">Sign language interpreters and written communication support for all group tours.</p>
+                    <button class="access-toggle-label" onclick="toggleAccess(this)">Learn More <i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="access-detail"><div class="access-detail-inner">
+                        <h4><i class="fa-solid fa-circle-check"></i> What We Provide</h4>
+                        <ul><li>Certified sign language interpreters (ASL, BSL &amp; others)</li><li>Written communication cards for every destination</li><li>Captioned video content for all in-room entertainment</li><li>Vibrating alarm systems in all partner hotels</li><li>Visual emergency alert systems throughout the trip</li></ul>
+                        <h4><i class="fa-solid fa-phone"></i> How to Request</h4>
+                        <p>Specify your interpreter language preference in the booking form. Requests must be made <strong>5 days in advance</strong> to ensure availability.</p>
+                    </div></div>
+                </div>
+                <div class="access-card">
+                    <i class="fa-solid fa-child-reaching" style="font-size:2rem;color:#D4AF37;margin-bottom:14px;display:block;"></i>
+                    <h3 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;color:#1F3D36;">Family Friendly</h3>
+                    <p style="font-size:0.92rem;color:#555;line-height:1.6;">Special arrangements for families traveling with young children or elderly members.</p>
+                    <button class="access-toggle-label" onclick="toggleAccess(this)">Learn More <i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="access-detail"><div class="access-detail-inner">
+                        <h4><i class="fa-solid fa-circle-check"></i> What We Provide</h4>
+                        <ul><li>Baby cots, high chairs and child-safe room setups</li><li>Kid-friendly meal options at all partner restaurants</li><li>Stroller-accessible routes at every destination</li><li>Supervised children's activities on select packages</li><li>Elderly-friendly slow-paced tour options available</li><li>Family room upgrades at preferential rates</li></ul>
+                        <h4><i class="fa-solid fa-phone"></i> How to Request</h4>
+                        <p>Include the ages of all travelers in your booking. Our team will tailor the itinerary to suit your family's needs perfectly.</p>
+                    </div></div>
+                </div>
+                <div class="access-card">
+                    <i class="fa-solid fa-pills" style="font-size:2rem;color:#D4AF37;margin-bottom:14px;display:block;"></i>
+                    <h3 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;color:#1F3D36;">Medical Support</h3>
+                    <p style="font-size:0.92rem;color:#555;line-height:1.6;">Dedicated medical assistance and first-aid trained staff on all expeditions.</p>
+                    <button class="access-toggle-label" onclick="toggleAccess(this)">Learn More <i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="access-detail"><div class="access-detail-inner">
+                        <h4><i class="fa-solid fa-circle-check"></i> What We Provide</h4>
+                        <ul><li>First-aid certified tour guides on every group trip</li><li>Emergency medical evacuation coverage included</li><li>Refrigeration facilities for insulin and temperature-sensitive medications</li><li>Pre-trip health screening and consultation available</li><li>Coordination with local hospitals at each destination</li><li>24/7 medical helpline throughout your journey</li></ul>
+                        <h4><i class="fa-solid fa-phone"></i> How to Request</h4>
+                        <p>Share your medical conditions confidentially via <strong>concierge@packngo.store</strong>. All information is handled with strict privacy.</p>
+                    </div></div>
+                </div>
+                <div class="access-card">
+                    <i class="fa-solid fa-handshake-angle" style="font-size:2rem;color:#D4AF37;margin-bottom:14px;display:block;"></i>
+                    <h3 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;color:#1F3D36;">24/7 Concierge</h3>
+                    <p style="font-size:0.92rem;color:#555;line-height:1.6;">Round-the-clock personal concierge for travelers with special needs and requirements.</p>
+                    <button class="access-toggle-label" onclick="toggleAccess(this)">Learn More <i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="access-detail"><div class="access-detail-inner">
+                        <h4><i class="fa-solid fa-circle-check"></i> What We Provide</h4>
+                        <ul><li>Dedicated personal concierge assigned to your booking</li><li>Available via phone, WhatsApp, and email 24 hours a day</li><li>Real-time problem solving for any travel disruptions</li><li>Special dietary and cultural requirement coordination</li><li>Last-minute booking changes handled with priority</li><li>Post-trip follow-up and feedback support</li></ul>
+                        <h4><i class="fa-solid fa-phone"></i> Contact Your Concierge</h4>
+                        <p>Call <strong>+92 300 1234567</strong> or email <strong>concierge@packngo.store</strong> — we are always here, day or night.</p>
+                    </div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAP -->
+        <section id="map-section" class="container map-section">
+            <h2 class="section-heading">Find Us</h2>
+            <p class="map-subtitle">Visit us at our office — University of Sargodha, Punjab, Pakistan</p>
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3409.5!2d72.6777643!3d32.0736564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x392177bfd683f3d5%3A0xa8090086de867b9d!2sUniversity%20of%20Sargodha!5e0!3m2!1sen!2spk!4v1700000000001!5m2!1sen!2spk" width="100%" height="420" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="University of Sargodha Location"></iframe>
+            </div>
+        </section>
+
+        <!-- CONTACT / FAQ -->
+        <section id="contact-faq" class="info-row-bg">
+            <div id="contact" class="anchor-point"></div>
+            <div id="faq" class="anchor-point"></div>
+            <div class="container info-grid">
+                <div class="info-column">
+                    <h3 class="column-heading">Contact Us</h3>
+                    <p><i class="fa-solid fa-envelope" style="color:#D4AF37;margin-right:8px;"></i>Email: concierge@packngo.store</p>
+                    <p style="margin-top:8px;"><i class="fa-solid fa-phone" style="color:#D4AF37;margin-right:8px;"></i>Phone: +92 300 1234567</p>
+                    <p style="margin-top:8px;"><i class="fa-solid fa-location-dot" style="color:#D4AF37;margin-right:8px;"></i>University of Sargodha, Sargodha, Punjab, Pakistan</p>
+
+                    <h4 class="cf-heading">Send Us a Message</h4>
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)" novalidate>
+                        <div class="cf-field">
+                            <label>Your Name *</label>
+                            <input type="text" id="cfName" maxlength="100" placeholder="e.g. Sophia Loren">
+                            <span class="cf-error" id="cfNameError">Please enter your name.</span>
+                        </div>
+                        <div class="cf-field">
+                            <label>Email Address *</label>
+                            <input type="email" id="cfEmail" maxlength="120" placeholder="you@example.com">
+                            <span class="cf-error" id="cfEmailError">Please enter a valid email address.</span>
+                        </div>
+                        <div class="cf-field">
+                            <label>Subject</label>
+                            <select id="cfSubject">
+                                <option value="General Enquiry">General Enquiry</option>
+                                <option value="Feedback">Feedback</option>
+                                <option value="Booking Support">Booking Support</option>
+                                <option value="Complaint">Complaint</option>
+                            </select>
+                        </div>
+                        <div class="cf-field">
+                            <label>Message *</label>
+                            <textarea id="cfMessage" rows="4" maxlength="2000" placeholder="Tell us how we can help, or share your feedback…" oninput="updateCfMsgCount()"></textarea>
+                            <span class="cf-char-count"><span id="cfMsgCount">0</span>/2000</span>
+                            <span class="cf-error" id="cfMessageError">Message must be at least 10 characters.</span>
+                        </div>
+
+                        <!-- Honeypot field — hidden from people, left blank by humans, often filled by bots -->
+                        <div class="cf-honeypot" aria-hidden="true">
+                            <label for="cfWebsite">Website</label>
+                            <input type="text" id="cfWebsite" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <div class="cf-field">
+                            <label>Quick Check *</label>
+                            <div class="cf-captcha-row">
+                                <span id="cfCaptchaQuestion" style="font-weight:bold;font-size:14px;"></span>
+                                <input type="number" id="cfCaptchaAnswer" placeholder="Answer">
+                            </div>
+                            <span class="cf-error" id="cfCaptchaError">Please answer the question correctly.</span>
+                        </div>
+
+                        <button type="submit" class="gold-btn" id="cfSubmitBtn" style="width:100%;">Send Message</button>
+                        <div class="cf-success" id="cfSuccess"><i class="fa-solid fa-circle-check" style="color:#2e7d32;margin-right:6px;"></i>Thank you! Your message has been sent — we'll reply within 24 hours.</div>
+                    </form>
+                </div>
+                <div class="info-column center-text">
+                    <h3 class="column-heading">FAQ's</h3>
+                    <div class="faq-item">
+                        <h4>How do I book?</h4>
+                        <p>Use our <a href="reservation.html" style="color:#D4AF37;">booking form</a> or contact our concierge directly by phone or email.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What is included in a tour package?</h4>
+                        <p>All packages include accommodation, guided tours, airport transfers, and 24/7 concierge support. Flights may vary — check the specific package details.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I customise my itinerary?</h4>
+                        <p>Absolutely. We specialise in bespoke travel. Contact our concierge and we will tailor every detail to your preferences and schedule.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What is the cancellation policy?</h4>
+                        <p>Cancellations made 14+ days before departure receive a full refund. Cancellations within 7–14 days receive a 50% refund. Please contact us for special circumstances.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Is travel insurance included?</h4>
+                        <p>Travel insurance is not included by default but is strongly recommended. We can assist you in arranging comprehensive coverage through our trusted partners.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Do you offer group discounts?</h4>
+                        <p>Yes! Groups of 6 or more travellers receive special pricing. Reach out to our team for a personalised group quote.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="reservation.html">Book Now</a>
+        </div>
+        <div class="footer-social">
+            <a href="#" aria-label="Follow us on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Follow us on Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="wa-footer-icon" aria-label="Chat with us on WhatsApp" onclick="toggleWaChat(event)"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2026 PackNGo. <small>Crafted for Explorers.</small></p>
+    </footer>
+
+    <!-- WHATSAPP FLOATING CHATBOT -->
+    <button class="wa-fab" id="waFab" onclick="toggleWaChat()" aria-label="Chat with PackNGo">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="wa-pulse"></span>
+    </button>
+
+    <div class="wa-chat-panel" id="waChatPanel">
+        <div class="wa-chat-header">
+            <div class="wa-chat-avatar"><i class="fa-solid fa-headset"></i></div>
+            <div class="wa-chat-header-text">
+                <h4>PackNGo Concierge</h4>
+                <p>Typically replies instantly</p>
+            </div>
+            <button class="wa-chat-close" onclick="toggleWaChat()" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="wa-chat-messages" id="waChatMessages">
+            <div class="wa-msg-bot">
+                Hello! Welcome to PackNGo ✈️ How can we help you plan your dream journey today?
+                <small>PackNGo · just now</small>
+            </div>
+        </div>
+        <div class="wa-typing" id="waTyping">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="wa-chat-input-row">
+            <input type="text" id="waChatInput" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendWaMessage()" />
+            <button class="wa-chat-send" onclick="sendWaMessage()" aria-label="Send message">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .access-card { background: #fff; border: 1px solid #D4AF37; border-radius: 4px; padding: 30px 24px 20px; text-align: center; transition: box-shadow 0.3s; position: relative; flex: 1 1 240px; max-width: calc(33.333% - 20px); box-sizing: border-box; }
+        .access-card:hover { box-shadow: 0 6px 22px rgba(212,175,55,0.25); }
+        .access-card.open { border-color: #1F3D36; box-shadow: 0 8px 28px rgba(31,61,54,0.18); }
+        .access-toggle-label { display: inline-block; margin-top: 14px; font-size: 12px; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.8px; font-weight: bold; transition: color 0.3s; background: none; border: none; cursor: pointer; font-family: 'Times New Roman', serif; padding: 0; }
+        .access-toggle-label:hover { color: #1F3D36; }
+        .access-toggle-label i { transition: transform 0.35s; font-size: 11px; }
+        .access-card.open .access-toggle-label { color: #1F3D36; }
+        .access-detail { display: none; text-align: left; margin-top: 14px; }
+        .access-card.open .access-detail { display: block; }
+        .access-detail-inner { border-top: 1px solid #e8dfc8; margin-top: 16px; padding-top: 16px; }
+        .access-detail-inner h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.6px; color: #1F3D36; margin-bottom: 10px; margin-top: 14px; }
+        .access-detail-inner h4:first-child { margin-top: 0; }
+        .access-detail-inner h4 i { color: #D4AF37; margin-right: 6px; }
+        .access-detail-inner ul { padding-left: 18px; margin-bottom: 10px; }
+        .access-detail-inner ul li { font-size: 0.88rem; color: #444; line-height: 1.7; margin-bottom: 2px; }
+        .access-detail-inner p { font-size: 0.88rem; color: #555; line-height: 1.6; }
+        .access-detail-inner strong { color: #1F3D36; }
+        @media (max-width: 1024px) { .access-card { max-width: calc(50% - 14px); } }
+        @media (max-width: 480px) { .access-card { max-width: 100%; flex: 1 1 100%; } }
+    </style>
+
+    <script>
+        /* ---- Destination modal data ---- */
+        const destData = {
+            ireland: {
+                title: 'Emerald Ireland', img: 'images/Ireland.jpg',
+                tagline: 'Where ancient cliffs meet emerald valleys and warm Irish hospitality.',
+                about: 'Ireland is a land of breathtaking natural beauty, rich Celtic heritage, and legendary craic. From the dramatic Cliffs of Moher to the mystical Giant\'s Causeway, every corner of this island holds something extraordinary.',
+                info: [{ label: 'Capital', value: 'Dublin' }, { label: 'Best Time to Visit', value: 'May – September' }, { label: 'Currency', value: 'Euro (€)' }, { label: 'Language', value: 'English & Irish' }, { label: 'Climate', value: 'Mild & Rainy' }, { label: 'Time Zone', value: 'GMT / IST' }],
+                events: [{ name: 'St. Patrick\'s Day', detail: '17 March — Nationwide' }, { name: 'Galway Arts Festival', detail: 'July — Galway City' }, { name: 'Dublin Horse Show', detail: 'August — RDS Dublin' }, { name: 'Cork Jazz Festival', detail: 'October — Cork City' }],
+                hotels: [{ name: 'The Shelbourne', detail: 'Dublin — 5★ Luxury' }, { name: 'Ashford Castle', detail: 'Cong — Historic 5★' }, { name: 'Powerscourt Hotel', detail: 'Wicklow — 5★ Resort' }, { name: 'The Merrion', detail: 'Dublin — 5★ Boutique' }],
+                places: [{ name: 'Cliffs of Moher', detail: 'Co. Clare — Iconic Cliffs' }, { name: 'Ring of Kerry', detail: 'Kerry — Scenic Drive' }, { name: 'Giant\'s Causeway', detail: 'Antrim — UNESCO Site' }, { name: 'Rock of Cashel', detail: 'Tipperary — Medieval Castle' }, { name: 'Killarney National Park', detail: 'Kerry — Nature & Lakes' }, { name: 'Trinity College', detail: 'Dublin — Book of Kells' }],
+            },
+            paris: {
+                title: 'Parisian Lights', img: 'images/Paris.jpg',
+                tagline: 'The city of love, art, fashion and unforgettable cuisine.',
+                about: 'Paris, the capital of France, is one of the world\'s greatest cities. With iconic landmarks, world-class museums, haute cuisine, and an unmatched atmosphere of romance and elegance, Paris is truly the city that has everything.',
+                info: [{ label: 'Capital', value: 'Paris' }, { label: 'Best Time to Visit', value: 'April – June, Sep – Oct' }, { label: 'Currency', value: 'Euro (€)' }, { label: 'Language', value: 'French' }, { label: 'Climate', value: 'Oceanic, Mild' }, { label: 'Time Zone', value: 'CET (UTC+1)' }],
+                events: [{ name: 'Bastille Day', detail: '14 July — Citywide' }, { name: 'Paris Fashion Week', detail: 'Sep & Feb — Paris' }, { name: 'Nuit Blanche', detail: 'October — Art Night' }, { name: 'Christmas Markets', detail: 'December — Citywide' }],
+                hotels: [{ name: 'Hôtel Ritz Paris', detail: 'Place Vendôme — 5★' }, { name: 'Le Bristol', detail: '8th Arr. — Palace Hotel' }, { name: 'Four Seasons George V', detail: 'Champs-Élysées — 5★' }, { name: 'Hôtel de Crillon', detail: 'Concorde — Historic 5★' }],
+                places: [{ name: 'Eiffel Tower', detail: 'Champ de Mars — Icon' }, { name: 'The Louvre', detail: 'Rivoli — World\'s Largest Museum' }, { name: 'Notre-Dame Cathedral', detail: 'Île de la Cité — Gothic' }, { name: 'Musée d\'Orsay', detail: 'Seine — Impressionist Art' }, { name: 'Versailles Palace', detail: '30km from Paris — Royal' }, { name: 'Montmartre', detail: 'Sacré-Cœur & Art District' }],
+            },
+            italy: {
+                title: 'Classic Italy', img: 'images/Italy.jpg',
+                tagline: 'Ancient ruins, Renaissance art, spectacular food and breathtaking landscapes.',
+                about: 'Italy is a country where history comes alive on every cobblestone street. From the Colosseum in Rome to the canals of Venice and the vineyards of Tuscany, Italy offers an incomparable blend of culture, cuisine and beauty.',
+                info: [{ label: 'Capital', value: 'Rome' }, { label: 'Best Time to Visit', value: 'April – June, Sep – Oct' }, { label: 'Currency', value: 'Euro (€)' }, { label: 'Language', value: 'Italian' }, { label: 'Climate', value: 'Mediterranean' }, { label: 'Time Zone', value: 'CET (UTC+1)' }],
+                events: [{ name: 'Venice Carnival', detail: 'Feb — Venice' }, { name: 'Palio di Siena', detail: 'July & Aug — Siena' }, { name: 'Venice Film Festival', detail: 'September — Venice Lido' }, { name: 'Rome Marathon', detail: 'March — Rome' }],
+                hotels: [{ name: 'Hotel Hassler Roma', detail: 'Spanish Steps — 5★' }, { name: 'Belmond Hotel Cipriani', detail: 'Venice — Iconic 5★' }, { name: 'Four Seasons Firenze', detail: 'Florence — Palace 5★' }, { name: 'Grand Hotel Tremezzo', detail: 'Lake Como — 5★ Resort' }],
+                places: [{ name: 'Colosseum', detail: 'Rome — Ancient Amphitheatre' }, { name: 'Vatican Museums', detail: 'Vatican City — Sistine Chapel' }, { name: 'Grand Canal Venice', detail: 'Venice — Gondola Rides' }, { name: 'Amalfi Coast', detail: 'Campania — Scenic Cliffs' }, { name: 'Tuscany Vineyards', detail: 'Florence — Wine Country' }, { name: 'Pompeii', detail: 'Naples — Ancient Roman City' }],
+            },
+        };
+
+        function openDestModal(key) {
+            const d = destData[key];
+            document.getElementById('destModalContent').innerHTML = `
+                <img src="${d.img}" alt="${d.title}" class="dest-modal-img">
+                <div class="dest-modal-body">
+                    <h2>${d.title}</h2>
+                    <p class="dest-tagline">${d.tagline}</p>
+                    <div class="dest-modal-divider"></div>
+                    <div class="dest-modal-section"><h3><i class="fa-solid fa-globe"></i> About</h3><p style="font-size:0.92rem;color:#444;line-height:1.7;">${d.about}</p></div>
+                    <div class="dest-modal-section"><h3><i class="fa-solid fa-circle-info"></i> Quick Info</h3><div class="dest-info-grid">${d.info.map(i=>`<div class="dest-info-item"><strong>${i.label}</strong><span>${i.value}</span></div>`).join('')}</div></div>
+                    <div class="dest-modal-section"><h3><i class="fa-solid fa-calendar-star"></i> Important Events</h3><ul class="dest-list">${d.events.map(e=>`<li><strong>${e.name}</strong>${e.detail}</li>`).join('')}</ul></div>
+                    <div class="dest-modal-section"><h3><i class="fa-solid fa-hotel"></i> Top Hotels</h3><ul class="dest-list">${d.hotels.map(h=>`<li><strong>${h.name}</strong>${h.detail}</li>`).join('')}</ul></div>
+                    <div class="dest-modal-section"><h3><i class="fa-solid fa-map-location-dot"></i> Must-Visit Places</h3><ul class="dest-list">${d.places.map(p=>`<li><strong>${p.name}</strong>${p.detail}</li>`).join('')}</ul></div>
+                </div>`;
+            document.getElementById('destModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDestModal(event) {
+            if (event && event.target !== document.getElementById('destModal')) return;
+            document.getElementById('destModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDestModal(null); });
+
+        function toggleAccess(btn) {
+            const card = btn.closest('.access-card');
+            const isOpen = card.classList.contains('open');
+            document.querySelectorAll('.access-card').forEach(c => { c.classList.remove('open'); c.querySelector('.access-toggle-label').innerHTML = 'Learn More <i class="fa-solid fa-chevron-down"></i>'; });
+            if (!isOpen) { card.classList.add('open'); btn.innerHTML = 'Close <i class="fa-solid fa-chevron-up"></i>'; }
+        }
+
+        const hamburger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('mainNav');
+        hamburger.addEventListener('click', () => { nav.classList.toggle('open'); hamburger.classList.toggle('active'); });
+        function closeNav() { nav.classList.remove('open'); hamburger.classList.remove('active'); }
+
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const scrollBottomBtn = document.getElementById('scrollBottomBtn');
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        scrollBottomBtn.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const total = document.body.scrollHeight - window.innerHeight;
+            scrollTopBtn.style.opacity = scrolled > 200 ? '1' : '0';
+            scrollTopBtn.style.pointerEvents = scrolled > 200 ? 'auto' : 'none';
+            scrollBottomBtn.style.opacity = scrolled < total - 200 ? '1' : '0';
+            scrollBottomBtn.style.pointerEvents = scrolled < total - 200 ? 'auto' : 'none';
+        });
+
+        const destinations = [
+            { name: "Maldives Luxury Escape", desc: "Overwater villas &amp; crystal-clear lagoons", cat: "beach" },
+            { name: "Bali Beach Retreat", desc: "Tropical paradise with volcanic black-sand shores", cat: "beach" },
+            { name: "Thai Islands Escape", desc: "Phi Phi Island &amp; turquoise waters of Phuket", cat: "beach" },
+            { name: "Santorini Sun &amp; Sea", desc: "Iconic white-washed cliffs above the Aegean", cat: "beach" },
+            { name: "Seychelles Luxury", desc: "Pristine coral reefs &amp; powdery white beaches", cat: "beach" },
+            { name: "Nepal Himalayan Trek", desc: "5 Days trekking to Everest Base Camp", cat: "adventure" },
+            { name: "Patagonia Expedition", desc: "Wild glaciers, condors &amp; Torres del Paine trek", cat: "adventure" },
+            { name: "African Safari — Kenya", desc: "Big Five safari across the Masai Mara savanna", cat: "adventure" },
+            { name: "Iceland Aurora Hunt", desc: "Northern lights, geysers &amp; volcanic landscapes", cat: "adventure" },
+            { name: "Inca Trail — Peru", desc: "4-day trek to the lost city of Machu Picchu", cat: "adventure" },
+            { name: "Classic Italy", desc: "Journey through Roman ruins &amp; Renaissance art", cat: "culture" },
+            { name: "Kyoto Cultural Immersion", desc: "Temples, geishas &amp; Japanese ceremony", cat: "culture" },
+            { name: "Ancient Egypt Explorer", desc: "Pyramids of Giza, Sphinx &amp; Valley of the Kings", cat: "culture" },
+            { name: "India Heritage Tour", desc: "Taj Mahal, Jaipur palaces &amp; vibrant Rajasthan", cat: "culture" },
+            { name: "Athens &amp; Santorini", desc: "Acropolis, ancient ruins &amp; Greek island elegance", cat: "culture" },
+            { name: "Parisian Lights", desc: "Romance of France &amp; the Eiffel Tower", cat: "romance" },
+            { name: "Bora Bora Honeymoon Special", desc: "10 Days in overwater bungalows — $4,000", cat: "romance" },
+            { name: "Venice Lovers' Escape", desc: "Gondola rides &amp; candlelit dinners by the canals", cat: "romance" },
+            { name: "Tuscany Wine &amp; Villas", desc: "Rolling vineyards, Renaissance villages &amp; fine wine", cat: "romance" },
+            { name: "Amalfi Coast Retreat", desc: "Cliffside villages, lemon groves &amp; sea-view suites", cat: "romance" },
+            { name: "Emerald Ireland", desc: "Cliffs, highlands &amp; the wild Atlantic way", cat: "nature" },
+            { name: "Amazon Rainforest", desc: "Explore the world's greatest biodiversity hotspot", cat: "nature" },
+            { name: "New Zealand Fjords", desc: "Milford Sound, Fiordland &amp; alpine scenery", cat: "nature" },
+            { name: "Canadian Rockies", desc: "Banff &amp; Jasper — glacial lakes &amp; towering peaks", cat: "nature" },
+            { name: "Norway Fjords &amp; Glaciers", desc: "Dramatic fjordland landscapes &amp; Arctic wildlife", cat: "nature" },
+        ];
+
+        let activeCategory = "all";
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.dataset.cat;
+                filterResults();
+            });
+        });
+
+        function filterResults() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearBtn');
+            clearBtn.style.display = query ? 'flex' : 'none';
+            const filtered = destinations.filter(d => {
+                const matchCat = activeCategory === 'all' || d.cat === activeCategory;
+                const matchQuery = !query || d.name.toLowerCase().includes(query) || d.desc.toLowerCase().includes(query);
+                return matchCat && matchQuery;
+            });
+            const grid = document.getElementById('searchResults');
+            if (!query && activeCategory === 'all') { grid.innerHTML = ''; return; }
+            if (filtered.length === 0) { grid.innerHTML = '<p class="no-results">No results found. Try a different search or category.</p>'; return; }
+            grid.innerHTML = filtered.map(d => `<div class="search-result-card"><span class="result-cat">${d.cat}</span><h4>${d.name}</h4><p>${d.desc}</p></div>`).join('');
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearBtn').style.display = 'none';
+            filterResults();
+        }
+
+        /* =====================================================
+           WHATSAPP CHATBOT — SMART RULE-BASED CONCIERGE
+           Fully client-side, no external API required.
+           ===================================================== */
+        let waOpen = false;
+        let waGreeted = false;
+
+        function toggleWaChat(event) {
+            if (event) event.preventDefault();
+            waOpen = !waOpen;
+            const panel = document.getElementById('waChatPanel');
+            panel.classList.toggle('wa-open', waOpen);
+            if (waOpen && !waGreeted) {
+                waGreeted = true;
+                const pulse = document.querySelector('.wa-pulse');
+                if (pulse) pulse.style.display = 'none';
+            }
+            if (waOpen) { setTimeout(() => document.getElementById('waChatInput').focus(), 300); }
+        }
+
+        function sendWaMessage() {
+            const input = document.getElementById('waChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            appendWaMessage(text, 'user');
+            const typing = document.getElementById('waTyping');
+            typing.style.display = 'flex';
+            scrollWaMessages();
+            setTimeout(() => {
+                typing.style.display = 'none';
+                appendWaMessage(getWaReply(text.toLowerCase()), 'bot');
+            }, 700 + Math.random() * 600);
+        }
+
+        function appendWaMessage(text, sender) {
+            const msgs = document.getElementById('waChatMessages');
+            const div = document.createElement('div');
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            if (sender === 'user') {
+                div.className = 'wa-msg-user';
+                div.innerHTML = text + '<small>' + now + ' ✓✓</small>';
+            } else {
+                div.className = 'wa-msg-bot';
+                div.innerHTML = text + '<small>PackNGo · ' + now + '</small>';
+            }
+            msgs.appendChild(div);
+            scrollWaMessages();
+        }
+
+        function scrollWaMessages() {
+            const msgs = document.getElementById('waChatMessages');
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function getWaReply(msg) {
+            // Greetings
+            if (/\b(hi|hello|hey|salaam|salam|assalam|good morning|good afternoon|good evening|howdy|greetings)\b/.test(msg)) {
+                const g = [
+                    'Hello there! Welcome to PackNGo ✈️ I\'m your personal travel concierge. Are you looking to explore a specific destination, or shall I tell you about our packages?',
+                    'Hi! So lovely to have you here. Whether it\'s a beach escape, adventure trek, or romantic honeymoon — we\'ve got you covered. What\'s your dream destination?',
+                    'Greetings from PackNGo! Ready to plan something extraordinary? Ask me about destinations, packages, pricing, or bookings. Where shall we begin?'
+                ];
+                return g[Math.floor(Math.random() * g.length)];
+            }
+            // Packages overview
+            if (/\b(package|packages|tour|tours|deal|deals|offer|offers)\b/.test(msg)) {
+                return 'We offer three handcrafted packages:<br>🌟 <strong>Luxury Escape</strong> — 7 days, $2,500<br>💑 <strong>Honeymoon Special</strong> — 10 days, $4,000<br>🏔️ <strong>Adventure Trek</strong> — 5 days, $1,800<br><br>All include accommodation, guided tours, airport transfers &amp; 24/7 concierge. Which interests you?';
+            }
+            // Luxury
+            if (/luxury escape|luxury package/.test(msg) || (msg.includes('luxury') && !msg.includes('honeymoon'))) {
+                return 'Our <strong>Luxury Escape</strong> is a 7-day premium journey at $2,500 per person. 🌟 Includes 5-star accommodation, private guided tours, airport transfers, and round-the-clock concierge. Perfect for those who want the very best. Ready to book?';
+            }
+            // Honeymoon / Romance
+            if (/honeymoon|honey moon|couple|couples|romantic|newlywed|anniversary/.test(msg)) {
+                return 'Our <strong>Honeymoon Special</strong> is magical! 💑 It\'s 10 days in paradise at $4,000 — romantic overwater bungalows, candlelit dinners, spa treatments, and private excursions. Destinations: Paris, Venice, Bora Bora, Amalfi Coast. Shall I help you start planning?';
+            }
+            // Adventure
+            if (/adventure trek|adventure package|trekking|hiking|safari|expedition|adventure/.test(msg)) {
+                return 'Our <strong>Adventure Trek</strong> is a thrilling 5-day exploration at $1,800 per person! 🏔️ Choose from Nepal\'s Everest Base Camp, Kenya\'s Masai Mara, Patagonia, or the Inca Trail to Machu Picchu. All include a certified guide, accommodation, and transfers. Which excites you most?';
+            }
+            // Pricing
+            if (/price|pricing|cost|how much|charges|fee|fees|rate|rates|budget/.test(msg)) {
+                return 'Our packages start at:<br>🏔️ <strong>Adventure Trek</strong> — $1,800 (5 days)<br>🌟 <strong>Luxury Escape</strong> — $2,500 (7 days)<br>💑 <strong>Honeymoon Special</strong> — $4,000 (10 days)<br><br>We also do fully custom bespoke itineraries — just share your budget and we\'ll tailor something perfect!';
+            }
+            // Destinations general
+            if (/destination|where|country|countries|where can|where should|suggest|recommend/.test(msg)) {
+                return 'We cover amazing destinations! 🌍<br>🏖️ <strong>Beach:</strong> Maldives, Bali, Santorini, Seychelles<br>🏔️ <strong>Adventure:</strong> Nepal, Kenya, Iceland, Peru<br>🎭 <strong>Culture:</strong> Italy, Kyoto, Egypt, India<br>💕 <strong>Romance:</strong> Paris, Venice, Tuscany, Amalfi Coast<br>🌿 <strong>Nature:</strong> Ireland, Amazon, New Zealand, Norway<br><br>Any of these call to you?';
+            }
+            // Ireland
+            if (/ireland|irish|dublin|cliffs of moher|ring of kerry/.test(msg)) {
+                return 'Ireland is absolutely magical! 🍀 The Cliffs of Moher, Ring of Kerry, and Giant\'s Causeway are breathtaking. Best visited May–September. We recommend 5-star stays like Ashford Castle or The Shelbourne in Dublin. Want a custom Ireland itinerary?';
+            }
+            // Paris
+            if (/paris|france|eiffel|louvre|versailles|french/.test(msg)) {
+                return 'Ah, Paris — the city of love! 🗼 Our Paris packages include the Eiffel Tower, Louvre, Versailles, and Montmartre, with stays at the Ritz or Four Seasons George V. Best months: April–June. Shall I pair Paris with Venice or Tuscany?';
+            }
+            // Italy
+            if (/\b(italy|italian|rome|venice|florence|tuscany|colosseum|amalfi)\b/.test(msg)) {
+                return 'Italy is a dream! 🇮🇹 From the Colosseum in Rome to Venice\'s canals and Tuscan vineyards, we cover it all. Our Classic Italy package visits Rome, Florence, Venice, and the Amalfi Coast. Best time: April–June or September–October. Interested?';
+            }
+            // Maldives
+            if (/maldives|overwater|bungalow/.test(msg)) {
+                return 'The Maldives is paradise! 🌊 Crystal-clear lagoons, overwater villas, and spectacular coral reefs. We arrange luxury resorts like Soneva Fushi or Anantara — perfect for honeymoons or ultimate relaxation. This fits our Luxury Escape or Honeymoon Special. Shall we build your trip?';
+            }
+            // Bali
+            if (/bali|indonesia|ubud/.test(msg)) {
+                return 'Bali is a tropical paradise! 🌺 Ubud rice terraces, Uluwatu temple, and premium beach clubs — we include it all. Great year-round, but April–October is ideal. Want to know more about our Bali retreats?';
+            }
+            // Nepal
+            if (/nepal|everest|himalaya|kathmandu/.test(msg)) {
+                return 'Nepal is extraordinary! 🏔️ Our Himalayan Trek takes you to Everest Base Camp over 5 days with certified mountain guides, teahouse accommodation, and Kathmandu transfers. Best season: March–May and September–November. Ready to conquer Everest?';
+            }
+            // Kenya / Safari
+            if (/kenya|safari|africa|masai|mara|big five/.test(msg)) {
+                return 'A Kenya safari is life-changing! 🦁 We arrange Big Five safaris across the Masai Mara with luxury tented camps and expert wildlife guides. Witness the Great Migration July–October. Part of our Adventure Trek package. Shall I tell you more?';
+            }
+            // Iceland
+            if (/iceland|northern lights|aurora|geysers/.test(msg)) {
+                return 'Iceland is otherworldly! 🌌 Northern lights, volcanic landscapes, geysers, and glaciers — all in our Adventure Trek package. Best for aurora hunting: October–March. Ready for an Arctic adventure?';
+            }
+            // Booking
+            if (/book|booking|reserve|reservation|how to book|sign up|register|apply/.test(msg)) {
+                return 'Booking is simple! You can:<br>1️⃣ Visit our <a href="reservation.html" style="color:#D4AF37;font-weight:bold;">Book Now</a> page<br>2️⃣ Email: <strong>concierge@packngo.store</strong><br>3️⃣ Call: <strong>+92 300 1234567</strong><br><br>Our concierge confirms your booking within 24 hours. Want help choosing the right package first?';
+            }
+            // Cancellation
+            if (/cancel|cancellation|refund|money back|policy/.test(msg)) {
+                return 'Our cancellation policy:<br>✅ <strong>14+ days before</strong> departure — full refund<br>⚠️ <strong>7–14 days before</strong> — 50% refund<br>❌ <strong>Less than 7 days</strong> — no refund (special cases considered)<br><br>For changes or emergencies, contact us at concierge@packngo.store and we\'ll do our best to help.';
+            }
+            // Insurance
+            if (/insurance|travel insurance|coverage|cover/.test(msg)) {
+                return 'Travel insurance is not included by default, but we strongly recommend it! We work with trusted partners and can arrange comprehensive coverage — medical emergencies, trip cancellation, lost luggage, and more. Would you like a quote included with your booking?';
+            }
+            // Inclusions
+            if (/include|includes|included|what.s in|what is in|what comes|amenities/.test(msg)) {
+                return 'All packages include:<br>🏨 Accommodation (4★ or 5★)<br>🚗 Airport transfers<br>🗺️ Guided tours at all destinations<br>📞 24/7 concierge support<br><br>Flights vary by package. Meals, visas &amp; insurance can be added. Want a full breakdown for a specific package?';
+            }
+            // Group discounts
+            if (/group|groups|discount|corporate|team|colleagues/.test(msg)) {
+                return 'Great news! 🎉 We offer special group pricing for 6+ travellers — corporate retreats, family holidays, and friends\' getaways all qualify. Email concierge@packngo.store or call +92 300 1234567 for a personalised group quote!';
+            }
+            // Accessibility
+            if (/wheelchair|disabled|disability|accessible|accessibility|blind|deaf|hearing|visual/.test(msg)) {
+                return 'Accessibility is very important to us! We offer:<br>♿ Wheelchair-accessible accommodation &amp; transport<br>👁️ Audio guides &amp; braille materials<br>🤟 Sign language interpreters<br>👨‍👩‍👧 Family-friendly arrangements<br>💊 Medical support &amp; first-aid staff<br><br>Mention your needs at booking and we\'ll tailor everything perfectly.';
+            }
+            // Visa
+            if (/visa|passport|entry|permit|immigration/.test(msg)) {
+                return 'Visa requirements vary by destination and nationality. Our concierge team can guide you through the process. We recommend applying 4–6 weeks before travel. Email us at concierge@packngo.store with your destination and passport details for specific advice.';
+            }
+            // Contact
+            if (/contact|phone|call|email|whatsapp|reach|get in touch|helpline/.test(msg)) {
+                return 'You can reach us anytime! 📞<br><strong>Phone:</strong> +92 300 1234567<br><strong>Email:</strong> concierge@packngo.store<br><strong>Location:</strong> University of Sargodha, Punjab, Pakistan<br><br>We\'re available 24/7 and respond within minutes. How can we assist you?';
+            }
+            // About PackNGo
+            if (/who are you|about you|about packngo|company|agency|tell me about/.test(msg)) {
+                return 'PackNGo is a luxury travel agency based in Sargodha, Punjab, Pakistan. ✈️ We specialise in handcrafted, bespoke travel experiences — from romantic honeymoons to thrilling adventures and deep cultural immersions. Our concierge team is available 24/7 to make every journey unforgettable.';
+            }
+            // Custom itinerary
+            if (/custom|customise|customize|personalise|personalize|tailor|bespoke|own itinerary/.test(msg)) {
+                return 'Absolutely — we specialise in bespoke travel! 🎨 Tell us your preferred destinations, travel dates, number of travellers, and budget, and our concierge will craft a completely personalised itinerary just for you. No two PackNGo journeys are alike. Shall we start building yours?';
+            }
+            // Thank you
+            if (/thank|thanks|thank you|cheers|great|awesome|perfect|wonderful|amazing/.test(msg)) {
+                const t = [
+                    'You\'re most welcome! 😊 Is there anything else you\'d like to know about our packages or destinations?',
+                    'Happy to help! If you have more questions or are ready to start planning, we\'re right here. ✈️',
+                    'Delighted to assist! Feel free to ask anything else — we look forward to making your journey truly special. 🌟'
+                ];
+                return t[Math.floor(Math.random() * t.length)];
+            }
+            // Goodbye
+            if (/bye|goodbye|good bye|see you|later|ciao|take care/.test(msg)) {
+                return 'Goodbye! 👋 It was a pleasure chatting with you. Whenever you\'re ready to start your adventure, PackNGo is here. Safe travels! ✈️🌍';
+            }
+            // Yes
+            if (/^(yes|yeah|yep|yup|sure|ok|okay|alright|definitely|absolutely|please)$/.test(msg.trim())) {
+                return 'Wonderful! To get started, could you share: 1️⃣ Which destination or package interests you? 2️⃣ Your approximate travel dates? 3️⃣ Number of travellers? Our concierge will then craft the perfect plan! 🌟';
+            }
+            // No
+            if (/^(no|nope|not really|no thanks|nah)$/.test(msg.trim())) {
+                return 'No problem at all! Feel free to ask about destinations, pricing, accessibility, or bookings anytime. I\'m here to help. 😊';
+            }
+            // Fallback
+            const fallbacks = [
+                'Great question! For the most personalised answer, our concierge team would love to help. 📞 Call +92 300 1234567 or email concierge@packngo.store. Or ask me about our packages, destinations, or pricing!',
+                'I\'d love to help with that! Could you tell me a bit more — a specific destination, package type, or travel dates? The more detail you share, the better I can assist. 🌍',
+                'Our concierge team handles all kinds of travel requests. You can reach them at concierge@packngo.store or +92 300 1234567. Anything about destinations or packages I can help with right now?'
+            ];
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+
+        /* ════════════════════════════════════════════════════
+           CONTACT / FEEDBACK FORM
+        ════════════════════════════════════════════════════ */
+        let cfCaptchaAnswer = 0;
+        let cfCsrfToken = null;
+
+        function generateCfCaptcha() {
+            const a = Math.floor(Math.random() * 9) + 1;
+            const b = Math.floor(Math.random() * 9) + 1;
+            cfCaptchaAnswer = a + b;
+            const qEl = document.getElementById('cfCaptchaQuestion');
+            const aEl = document.getElementById('cfCaptchaAnswer');
+            if (qEl) qEl.textContent = `What is ${a} + ${b}?`;
+            if (aEl) aEl.value = '';
+        }
+
+        function updateCfMsgCount() {
+            const el = document.getElementById('cfMessage');
+            const counter = document.getElementById('cfMsgCount');
+            if (el && counter) counter.textContent = el.value.length;
+        }
+
+        function cfShowError(id, message) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (message) el.textContent = message;
+            el.classList.add('visible');
+        }
+
+        function cfClearErrors() {
+            document.querySelectorAll('#contactForm .cf-error').forEach(el => el.classList.remove('visible'));
+        }
+
+        async function getCfCsrfToken() {
+            if (cfCsrfToken) return cfCsrfToken;
+            try {
+                const r = await fetch('api/auth/csrf', { credentials: 'include' });
+                const d = await r.json();
+                cfCsrfToken = d.csrf_token || '';
+            } catch (e) {
+                cfCsrfToken = '';
+            }
+            return cfCsrfToken;
+        }
+
+        async function handleContactSubmit(e) {
+            e.preventDefault();
+            cfClearErrors();
+
+            const name = document.getElementById('cfName').value.trim();
+            const email = document.getElementById('cfEmail').value.trim();
+            const subject = document.getElementById('cfSubject').value;
+            const message = document.getElementById('cfMessage').value.trim();
+            const website = document.getElementById('cfWebsite').value.trim(); // honeypot
+            const captchaAnswer = parseInt(document.getElementById('cfCaptchaAnswer').value, 10);
+
+            let hasError = false;
+            if (!name) { cfShowError('cfNameError'); hasError = true; }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailPattern.test(email)) { cfShowError('cfEmailError'); hasError = true; }
+            if (!message || message.length < 10) { cfShowError('cfMessageError'); hasError = true; }
+            if (isNaN(captchaAnswer) || captchaAnswer !== cfCaptchaAnswer) {
+                cfShowError('cfCaptchaError', 'Incorrect answer. Please try again.');
+                generateCfCaptcha();
+                hasError = true;
+            }
+            if (hasError) return;
+
+            const btn = document.getElementById('cfSubmitBtn');
+            const originalLabel = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Sending…';
+
+            try {
+                const token = await getCfCsrfToken();
+                const resp = await fetch('api/contact/send', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': token,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ name, email, subject, message, website, _csrf: token })
+                });
+                const data = await resp.json();
+                cfCsrfToken = null; // rotate
+
+                if (data.success) {
+                    document.getElementById('contactForm').reset();
+                    updateCfMsgCount();
+                    generateCfCaptcha();
+                    document.getElementById('cfSuccess').classList.add('visible');
+                    setTimeout(() => document.getElementById('cfSuccess').classList.remove('visible'), 6000);
+                } else if (data.errors) {
+                    const fieldMap = { name: 'cfNameError', email: 'cfEmailError', message: 'cfMessageError', subject: 'cfMessageError' };
+                    Object.keys(data.errors).forEach(f => {
+                        if (fieldMap[f]) cfShowError(fieldMap[f], data.errors[f][0]);
+                    });
+                    generateCfCaptcha();
+                } else {
+                    cfShowError('cfMessageError', data.message || 'Could not send your message. Please try again.');
+                    generateCfCaptcha();
+                }
+            } catch (err) {
+                cfShowError('cfMessageError', 'Network error. Please check your connection and try again.');
+                generateCfCaptcha();
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalLabel;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', generateCfCaptcha);
+    </script>
+    <script src="api-client.js"></script>
+</body>
+</html>

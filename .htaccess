@@ -1,0 +1,117 @@
+# ============================================================
+#  PackNGo — Apache .htaccess
+#  Place this in the project root (htdocs/PackNGo/)
+#  Requires: mod_rewrite, mod_headers (enabled in XAMPP by default)
+# ============================================================
+
+Options -Indexes
+Options -MultiViews
+
+# ── Rewrite engine ─────────────────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS — uncomment in production once SSL is active
+    # RewriteCond %{HTTPS} off
+    # RewriteCond %{HTTP_X_FORWARDED_PROTO} !https
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Set the base if app lives in a sub-directory
+    # Comment this out if PackNGo is at the domain root
+    # RewriteBase /PackNGo/
+
+    # ── Serve frontend HTML files through index.php for tracking ──
+    RewriteRule ^$ index.php [QSA,L]
+    RewriteRule ^index\.html$ index.php [QSA,L]
+    RewriteRule ^About\.html$ index.php [QSA,L]
+    RewriteRule ^Blogs\.html$ index.php [QSA,L]
+    RewriteRule ^Gallery\.html$ index.php [QSA,L]
+    RewriteRule ^Reservation\.html$ index.php [QSA,L]
+
+    # ── Allow direct access to other real files and directories ──
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # ── Route all /api/* requests through index.php ────────
+    RewriteRule ^api/(.*)$ index.php [QSA,L]
+</IfModule>
+
+# ── Security: block access to sensitive directories ────────
+<IfModule mod_rewrite.c>
+    # Block direct access to backend folders
+    RewriteRule ^(config|app|helpers|middleware|routes|database|logs|storage)/.*$ - [F,L]
+
+    # Block .env, composer files, etc.
+    RewriteRule ^(\.env.*|composer\.(json|lock)|package\.json)$ - [F,L]
+</IfModule>
+
+# ── Deny access to sensitive files by extension ────────────
+<FilesMatch "\.(sql|log|json|lock|md|sh|bat|ini)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Allow composer.json/package.json to be blocked by the above rule
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ── Security headers ───────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Remove server information headers
+    Header always unset X-Powered-By
+    Header always unset Server
+
+    # HSTS — enable only in production with HTTPS (uncomment after SSL is confirmed working)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# ── Performance: browser caching for static assets ────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg         "access plus 1 month"
+    ExpiresByType image/png          "access plus 1 month"
+    ExpiresByType image/webp         "access plus 1 month"
+    ExpiresByType image/gif          "access plus 1 month"
+    ExpiresByType video/mp4          "access plus 1 month"
+    ExpiresByType text/css           "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType text/html          "access plus 0 seconds"
+</IfModule>
+
+# ── Gzip compression ───────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ── PHP settings (shared hosting compatible) ──────────────
+<IfModule mod_php8.c>
+    php_flag  display_errors      Off
+    php_value upload_max_filesize 10M
+    php_value post_max_size       12M
+    php_value max_execution_time  60
+    php_value memory_limit        128M
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag  display_errors      Off
+    php_value upload_max_filesize 10M
+    php_value post_max_size       12M
+    php_value max_execution_time  60
+    php_value memory_limit        128M
+</IfModule>
+<IfModule mod_php.c>
+    php_flag  display_errors      Off
+    php_value upload_max_filesize 10M
+    php_value post_max_size       12M
+    php_value max_execution_time  60
+    php_value memory_limit        128M
+</IfModule>

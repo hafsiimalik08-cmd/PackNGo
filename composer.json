@@ -1,0 +1,34 @@
+{
+    "name": "packngo/backend",
+    "description": "PackNGo Luxury Travel — PHP Backend",
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "PackNGo\\": "app/"
+        },
+        "files": [
+            "config/Database.php",
+            "helpers/Validator.php",
+            "helpers/Sanitizer.php",
+            "helpers/Response.php",
+            "helpers/RateLimiter.php",
+            "helpers/Session.php",
+            "helpers/Mailer.php",
+            "middleware/CsrfMiddleware.php",
+            "middleware/AdminAuthMiddleware.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"echo 'PackNGo dependencies installed.\\n';\""
+        ]
+    }
+}

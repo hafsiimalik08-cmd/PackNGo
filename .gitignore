@@ -1,0 +1,33 @@
+# PackNGo — .gitignore
+
+# ── Secret config ─────────────────────────────
+.env
+
+# ── Composer dependencies ─────────────────────
+/vendor/
+
+# ── Uploaded user files ───────────────────────
+/public/uploads/gallery/*
+!/public/uploads/gallery/.gitkeep
+
+# ── Logs ─────────────────────────────────────
+/logs/*.log
+!/logs/.gitkeep
+
+# ── Cache ─────────────────────────────────────
+/storage/cache/*
+!/storage/cache/.gitkeep
+
+# ── OS files ──────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE files ─────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── PHP ───────────────────────────────────────
+*.log
